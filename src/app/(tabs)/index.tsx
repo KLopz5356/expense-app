@@ -1,161 +1,113 @@
-import { Link } from "expo-router";
-import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-
-// type Pokemon
-interface Pokemon {
-  name: string;
-  url: string;
-  details?: any;
-  image?: string;
-  imageBack?: string;
-  imageShiny?: string;
-  types?: PokemonType[];
-}
-
-interface PokemonType {
-  slot: number;
-  type: {
-    name: string;
-    url: string;
-  };
-}
-
-const colorByType = {
-  normal: "#A8A77A",
-  fire: "#EE8130",
-  water: "#6390F0",
-  electric: "#F7D02C",
-  grass: "#7AC74C",
-  ice: "#96D9D6",
-  fighting: "#C22E28",
-  poison: "#A33EA1",
-  ground: "#E2BF65",
-  flying: "#A98FF3",
-  psychic: "#F95587",
-  bug: "#A6B91A",
-  rock: "#B6A136",
-  ghost: "#735797",
-  dragon: "#6F35FC",
-  dark: "#705746",
-  steel: "#B7B7CE",
-  fairy: "#D685AD",
-};
+import Feather from "@expo/vector-icons/Feather";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
-  const [Pokemons, setPokemons] = useState<Pokemon[]>([]);
-
-  // console.log("Pokemon: ", JSON.stringify(Pokemons[0], null, 2));
-  useEffect(() => {
-    // fetch pokemon
-    fetchPokemon();
-  }, []);
-
-  async function fetchPokemon() {
-    try {
-      const response = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=30",
-      );
-      const data = await response.json();
-
-      const detailedPokemons = await Promise.all(
-        data.results.map(async (pokemon: any) => {
-          const res = await fetch(pokemon.url);
-          const details = await res.json();
-          return {
-            name: pokemon.name,
-            url: pokemon.url,
-            details, // You can choose to store specific details if needed
-            image: details.sprites?.front_default || null,
-            imageBack: details.sprites?.back_default || null,
-            imageShiny: details.sprites?.front_shiny || null,
-            types: details.types,
-          };
-        }),
-      );
-      setPokemons(detailedPokemons);
-      console.log("Fetched Pokemon:", detailedPokemons[0]);
-    } catch (error) {
-      console.error("Error fetching pokemon:", error);
-    }
-  }
-
   return (
-    <>
+    <View className="flex-1 items-start justify-start p-4 gap-2">
+      {/* Logo, Name, and text  */}
+      <View className="w-full">
+        <View className="flex flex-row items-end gap-4">
+          <Image
+            source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
+            className="bg-gray-200 rounded-full"
+            style={{ width: 48, height: 48 }}
+          />
+          <Text className="text-white text-3xl">Hello, User</Text>
+        </View>
+
+        <Text className="text-gray-400 text-sm mt-1">
+          Welcome to your expense tracker. Here's an overview of your expenses.
+        </Text>
+      </View>
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
+        className="w-full"
         contentContainerStyle={{
-          paddingHorizontal: 5,
           paddingTop: 5,
           paddingBottom: 5,
         }}
-        style={{ marginTop: 20, paddingHorizontal: 10 }}
       >
-        {Pokemons.map((pokemon) => (
-          <Link
-            key={pokemon.name}
-            href={{
-              pathname: "/details",
-              params: { name: pokemon.name, image: pokemon.image },
-            }}
-            style={{
-              padding: 10,
-              backgroundColor:
-                // @ts-ignore
-                colorByType[pokemon.types?.[0].type.name] + 80 || "#9c9797",
-              borderBottomWidth: 1,
-              borderRadius: 20,
-              marginBottom: 10,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <Image
-                source={{ uri: pokemon.image }}
-                style={{ width: 96, height: 96 }}
-              ></Image>
-              <Image
-                source={{ uri: pokemon.imageBack }}
-                style={{ width: 96, height: 96 }}
-              ></Image>
-              <Image
-                source={{ uri: pokemon.imageShiny }}
-                style={{ width: 96, height: 96 }}
-              ></Image>
-            </View>
-            <View style={{ width: "100%", alignItems: "center" }}>
-              <Text style={styles.pokemonName}>
-                {pokemon.name.toUpperCase()}
+        {/* Total Spent */}
+        <View className="w-full bg-[#1A1F29] border-2 border-[#2D3442]  rounded-2xl p-4 mb-4">
+          <View className="flex flex-row justify-between items-center mb-2">
+            <Text className="text-gray-400 text-xl font-semibold">
+              Total Spent
+            </Text>
+            <Feather name="dollar-sign" size={24} color="white" />
+          </View>
+          <Text className="text-white text-2xl mt-1 font-semibold">
+            $1,234.56
+          </Text>
+          <Text className="text-gray-400 text-sm mt-1">0 Transactions</Text>
+        </View>
+
+        {/* This Month */}
+        <View className="w-full bg-[#1A1F29] border-2 border-[#2D3442] rounded-2xl p-4 mb-4">
+          <View className="flex flex-row justify-between items-center mb-2">
+            <Text className="text-gray-400 text-xl font-semibold">
+              This Month
+            </Text>
+            <Feather name="calendar" size={24} color="white" />
+          </View>
+          <Text className="text-white text-2xl mt-1 font-semibold">
+            $567.89
+          </Text>
+          <Text className="text-gray-400 text-sm mt-1">0 Transactions</Text>
+        </View>
+
+        {/* Avg Expense Folder */}
+        <View className="w-full bg-[#1A1F29] border-2 border-[#2D3442] rounded-2xl p-4 mb-4">
+          <View className="flex flex-row justify-between items-center mb-2">
+            <Text className="text-gray-400 text-xl font-semibold">
+              Expense Folder
+            </Text>
+            <Feather name="folder" size={24} color="white" />
+          </View>
+          <Text className="text-white text-2xl mt-1 font-semibold">0</Text>
+          <Text className="text-gray-400 text-sm mt-1">Active Folders</Text>
+        </View>
+
+        {/* Expense Folders */}
+        <View className="w-full bg-[#1A1F29] border-2 border-[#2D3442] rounded-2xl p-4 mb-4">
+          <View className="flex flex-row justify-between items-center mb-2">
+            <Text className="text-gray-400 text-xl font-semibold">
+              Expense Folder
+            </Text>
+            <Pressable className="bg-blue-500 rounded-full p-2">
+              <Feather name="plus" size={16} color="white" />
+            </Pressable>
+          </View>
+          <Text className="text-white text-2xl mt-1 font-semibold">0</Text>
+          <Text className="text-gray-400 text-sm mt-1">Active Folders</Text>
+        </View>
+
+        {/* Profile */}
+        <View className="w-full bg-[#1A1F29] border-2 border-[#2D3442] rounded-2xl p-4 mb-4">
+          <View className="flex flex-row justify-between items-center mb-2">
+            <Text className="text-gray-400 text-xl font-semibold">Profile</Text>
+          </View>
+          <View className="flex flex-row  justify-start items-center gap-4">
+            <Image
+              source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
+              className="bg-gray-200 rounded-full"
+              style={{ width: 48, height: 48 }}
+            />
+            <View className="flex flex-col align-start justify-center">
+              <Text className="text-white text-lg mt-2 font-semibold">
+                John Doe
               </Text>
-              <Text style={styles.type}>
-                {pokemon.types?.[0]?.type?.name?.toUpperCase()}
-              </Text>
+              <Text className="text-gray-400 text-sm">johndoe@example.com</Text>
             </View>
-          </Link>
-        ))}
+            <Feather
+              className="border-2 border-[#ffff] border-rounded-full p-3 rounded-2xl mb-auto mt-auto"
+              name="settings"
+              size={16}
+              color="white"
+            />
+          </View>
+        </View>
       </ScrollView>
-    </>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  name: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-  pokemonName: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  type: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#8f8f8f",
-  },
-});

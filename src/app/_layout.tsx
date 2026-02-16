@@ -14,7 +14,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={AppDarkTheme}>
       <Stack>
-        {/* <Stack.Screen name="index" options={{ title: "Pokemon List" }} /> */}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+      {/* <Stack>
+        <Stack.Screen name="index" options={{ title: "Pokemon List" }} />
         <Stack.Screen
           name="details"
           options={{
@@ -24,7 +27,7 @@ export default function RootLayout() {
             sheetGrabberVisible: true,
           }}
         />
-      </Stack>
+      </Stack> */}
     </ThemeProvider>
   );
 }
