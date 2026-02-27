@@ -1,5 +1,7 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../../global.css";
 
 const AppDarkTheme = {
@@ -12,11 +14,13 @@ const AppDarkTheme = {
 
 export default function RootLayout() {
   return (
-    <ThemeProvider value={AppDarkTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-      {/* <Stack>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <ThemeProvider value={AppDarkTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+          {/* <Stack>
         <Stack.Screen name="index" options={{ title: "Pokemon List" }} />
         <Stack.Screen
           name="details"
@@ -28,6 +32,8 @@ export default function RootLayout() {
           }}
         />
       </Stack> */}
-    </ThemeProvider>
+        </ThemeProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }

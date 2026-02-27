@@ -12,7 +12,7 @@ export default function TabsLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "#F1F3F5",
-          tabBarShowLabel: false,
+          tabBarShowLabel: true,
           headerShown: false,
           tabBarStyle: {
             backgroundColor: "#0F1419",
@@ -38,7 +38,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="expense"
           options={{
-            title: "Expense List",
+            title: "Expense",
             tabBarIcon: ({ size, color }) => (
               <Feather name="folder" size={size} color={color} />
             ),
