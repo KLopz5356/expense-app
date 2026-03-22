@@ -1,5 +1,5 @@
 export type User = {
-  id: number;
+  id: string;
   name: string;
   profilePicture: string;
   startedAt: Date;
@@ -8,16 +8,22 @@ export type User = {
 };
 
 export type Expense = {
-  id: number;
-  createdAt: Date;
+  id: string;
   description: string;
-  category: string;
   amount: number;
+  isChecked: boolean;
+  category: string;
+  folderId: string | null;
+  createdAt: number;
+  updatedAt: number;
+  deletedAt: number | null;
 };
 
 export type Folder = {
-  id: number;
-  createdAt: Date;
+  id: string;
   name: string;
-  expenses: Expense[];
+  type: string | null;
+  createdAt: number;
+  updatedAt: number;
+  deletedAt: number | null;
 };

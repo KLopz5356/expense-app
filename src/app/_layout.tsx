@@ -1,8 +1,10 @@
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../../global.css";
+import { migrate } from "../lib/db/migrate";
 
 const AppDarkTheme = {
   ...DarkTheme,
@@ -13,6 +15,10 @@ const AppDarkTheme = {
 };
 
 export default function RootLayout() {
+  useEffect(() => {
+    migrate();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
